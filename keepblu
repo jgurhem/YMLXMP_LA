@@ -1,0 +1,3 @@
+#!/bin/bash
+
+find . \( -name "XMP_genVect.query" -o -name "XMP_prodDiffMV.query" -o -name "XMP_prodMat.query" -o -name "XMP_prodMV.query" -o -name "XMP_solveLinearSystem.query" \)

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+rm *yapp
+yml_compiler --config-dir=$(pwd) $1.query
+
+omrpc-register-yml $1.query.yapp | grep ^$1 > stubs
+echo " " >> stubs
+
+echo "localhost" > hosts
+
+PROCPERTASK=4
+NBWORKER=5
+
+NBHOSTS=80
+
+i=1
+while [ $i -lt $NBHOSTS ]  
+do
+	echo "localhost" >> hosts
+	i=$[$i+1]
+done
+
+cp stubs .omrpc_registry
+cp hosts .omrpc_registry/nodes
+

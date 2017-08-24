@@ -3,28 +3,50 @@ hometmp=$(pwd)
 rm -r impl_size*
 
 cd impl_SIZE
-./changesize 4
-./changesize 32 
-./changesize 64 
-./changesize 512 
+./changesize 32
+./changesize 1024
 ./changesize 2048 
-
-cd ../impl_size4
-./changep 4 2 2
-
-cd ../impl_size512
-./changep 8 4 2
-
-cd ../impl_size2048
-./changep 8 4 2
-
-cd ../impl_size64
-./changep 4 2 2
-./changep 8 4 2
-./changep 16 4 4
-./changep 32 8 4
+./changesize 4096 
+./changesize 8192 
+./changesize 16384 
 
 cd ../impl_size32
 ./changep 4 2 2
+
+cd ../impl_size1024
+./changep 512 32 16
+./changep 256 16 16
+./changep 128 16 8
+./changep 64 8 8
+./changep 32 8 4
+./changep 16 4 4
+
+cd ../impl_size2048
+./changep 512 32 16
+./changep 256 16 16
+./changep 128 16 8
+./changep 64 8 8
+./changep 32 8 4
+./changep 16 4 4
+
+cd ../impl_size4096
+./changep 512 32 16
+./changep 256 16 16
+./changep 128 16 8
+./changep 64 8 8
+./changep 32 8 4
+./changep 16 4 4
+
+
+cd ../impl_size8192
+./changep 512 32 16
+./changep 256 16 16
+./changep 128 16 8
+./changep 64 8 8
+./changep 32 8 4
+./changep 16 4 4
+
+cd ../impl_size16384
+./changep 1024 32 32
 
 cd $hometmp

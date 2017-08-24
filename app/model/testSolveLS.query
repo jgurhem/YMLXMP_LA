@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<application name="Use of the solveLinearSystem component">
+<description> some tests
+</description>
+<graph>
+
+compute XMP_genVect(vA,1);
+compute XMP_genMat(mA,1,1);
+
+compute XMP_solveLinearSystem(mA,vA);
+
+</graph>
+</application>

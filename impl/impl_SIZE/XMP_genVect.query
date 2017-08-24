@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <component type="impl" name="XMP_genVect" abstract="XMP_genVect">
-<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTVECT)">
+<impl lang="XMP" nodes="CPU:(DISTVECT)">
   <templates>
     <template name="t" format="block" size="SIZE"/>
   </templates>

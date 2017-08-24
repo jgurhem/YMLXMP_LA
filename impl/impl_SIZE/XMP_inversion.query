@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <component type="impl" name="XMP_inversion" abstract="XMP_inversion">
-<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTVECT,1)">
+<impl lang="XMP" nodes="CPU:(DISTVECT,1)">
   <templates>
     <template name="u" format="block,block" size="SIZE,SIZE" />
   </templates>

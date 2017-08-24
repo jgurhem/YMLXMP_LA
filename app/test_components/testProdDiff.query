@@ -4,15 +4,19 @@
 </description>
 <graph>
 
-compute XMP_genMat(A,1,1);
-compute XMP_genMat(B,2,1);
-compute XMP_genMat(C,3,1);
-compute XMP_saveInitMat(1,1,A);
-compute XMP_saveInitMat(2,1,B);
-compute XMP_saveInitMat(3,1,C);
+blockcount:=10;
 
-compute XMP_prodDiff(A,B,C);
+par(i:=0;blockcount-1)
+do
+	compute XMP_genMat(A,1,1);
+	compute XMP_genMat(B,2,1);
+	compute XMP_genMat(C,3,1);
+	#compute XMP_saveInitMat(1,1,A);
+	#compute XMP_saveInitMat(2,1,B);
+	#compute XMP_saveInitMat(3,1,C);  
+	compute XMP_prodDiff(A,B,C);
+enddo
 
-compute XMP_saveInitMat(4,1,C);
+#compute XMP_saveInitMat(4,1,C);
 </graph>
 </application>

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+file=$1
+declare -a myArray
+
+myArray=($(grep pid=* $file | cut -d '(' -f2 | sort | uniq -c | tr -d ')' | cut -d= -f2))
+
+for i in "${myArray[@]}"
+do
+	echo "pid $i"; 
+	grep -v ^host $file | sed -e '/genMat/,+9d' | grep pid=$i -A 7 | grep time: | cut -d ' ' -f3 | awk '{s+=$1} END {print s}';
+	echo " ";
+done
+
+
+echo "nb worker"
+grep pid=* $file | cut -d '(' -f2 | sort | uniq -c | wc -l
+
+echo "total use";
+grep -v ^host $file | sed -e '/genMat/,+9d' | grep elasped* | grep time: | cut -d ' ' -f3 | awk '{s+=$1} END {print s}';
+
+echo "temps exec";
+grep -v ^host $file | sed -e '/genMat/,+9d' | grep -E "start *|end *" -A 1 | grep -e '(' | cut -d '(' -f2 | tr -d ')' | awk '{x[NR]=$1}END{asort(x);print "t= "x[NR]-x[1]}';
+

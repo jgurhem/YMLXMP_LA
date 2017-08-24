@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <group name="path">
+        <entry name="binaries"      value="/gpfshome/mds/staff/jgurhem/test_xmp/app/test_64/var/yml/dr/binaries/" />
+        <entry name="binaries-uri"  value="/binaries/" />
+        <entry name="generators"    value="/gpfshome/mds/staff/jgurhem/local/var/yml/DefaultExecutionCatalog/generators/" />
+        <entry name="indexes"       value="/gpfshome/mds/staff/jgurhem/local/var/yml/DefaultExecutionCatalog/indexes/" />
+    </group>
+</config>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<component type="impl" 
+	name="XMP_prodMat3" 
+	abstract="XMP_prodMat3" 
+	description="C = B x A">
+<impl lang="XMP" nodes="CPU:(DISTMAT1,DISTMAT2)">
+  <templates>
+    <template name="t" format="block,block" size="SIZE,SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="C0(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+    <param template="t" name="B0(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+    <param template="t" name="A0(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+  </distribute>
+<header>
+<![CDATA[
+#include<xmp.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+double A[SIZE][SIZE];
+double B[SIZE][SIZE];
+
+#pragma xmp align A[i][j] with t(j,i)
+#pragma xmp align B[i][j] with t(j,i)
+
+#pragma xmp shadow A[*][0]
+#pragma xmp shadow B[0][*]
+]]>
+</header>
+<source>
+<![CDATA[
+  int    i, j, k, n, jj;
+  double x, dtmp;
+
+  n = SIZE;
+
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      B[i][j]=B0[i][j];
+      A[i][j]=A0[i][j];
+    }
+  }
+
+#pragma xmp reflect (A,B)
+
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      x=0.0;
+      for(k=0;k<n;k++){
+        x+= (B[i][k]*A[k][j]) ;
+        //fprintf(stderr, "%d %d %d %d\n", xmp_all_node_num(),i,j,k);
+      }
+      C0[i][j]=x;
+    }
+  }
+
+]]>
+</source>
+<footer />
+</impl>
+</component>
+

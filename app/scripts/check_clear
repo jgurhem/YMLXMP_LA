@@ -1,0 +1,21 @@
+file=$1
+
+
+echo "nb worker"
+grep pid=* $file | cut -d '(' -f2 | sort | uniq -c | wc -l
+
+echo ""
+
+echo "temps exec (gen)";
+grep -E "start *|end *" $file -A 1 | grep -e '(' | cut -d '(' -f2 | tr -d ')' | awk '{x[NR]=$1}END{asort(x);print "t= "x[NR]-x[1]}';
+
+echo "total use (gen)";
+grep elasped* $file | grep time: | cut -d ' ' -f3 | awk '{s+=$1} END {print s}';
+
+echo ""
+
+echo "temps exec";
+grep -v ^host $file | sed -E '/genMat|fillMatrixZero|genVect/,+9d' | grep -E "start *|end *" -A 1 | grep -e '(' | cut -d '(' -f2 | tr -d ')' | awk '{x[NR]=$1}END{asort(x);print "t= "x[NR]-x[1]}';
+
+echo "total use";
+grep -v ^host $file | sed -E '/genMat|fillMatrixZero|genVect/,+9d' | grep elasped* | grep time: | cut -d ' ' -f3 | awk '{s+=$1} END {print s}';

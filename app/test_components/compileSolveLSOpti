@@ -1,0 +1,26 @@
+#!/bin/sh
+hometmp=$(pwd)
+
+rm -r /gpfsdata/jgurhem/test_xmp/impl/impl_size*
+
+cd /gpfsdata/jgurhem/test_xmp/impl/impl_SIZE
+./changesize 8 
+
+cd ../impl_size8
+./changep 4 2 2
+
+cd impl_p4/
+yml_component --force XMP_solveLinearSystemOpti.query
+#./compile
+
+cd $hometmp
+
+yml_compiler testSolveLSOpti.query 
+
+omrpc-register-yml testSolveLSOpti.query.yapp | grep ^testSolveLSOpti > stubs
+echo " " >> stubs
+cp stubs  ~/.omrpc_registry
+cp hosts ~/.omrpc_registry/nodes
+#cp mpi.xcf ../../etc/yml/
+#cat stubs
+

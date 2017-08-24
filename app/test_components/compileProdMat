@@ -1,16 +1,20 @@
+#!/bin/sh
+
 hometmp=$(pwd)
 
-rm -r ~/test_xmp/impl/impl_size*
+rm -r /gpfsdata/jgurhem/test_xmp/impl/impl_size*
 
-cd ~/test_xmp/impl/impl_SIZE
+cd /gpfsdata/jgurhem/test_xmp/impl/impl_SIZE
 ./changesize 4
 
 cd ../impl_size4
 ./changep 4 2 2
 
 cd impl_p4/
-yml_component --force XMP_prodMat.query
-yml_component --force XMP_prodMat2.query
+#./compile
+#yml_component --force XMP_prodMat.query
+yml_component --force XMP_prodMat3.query
+yml_component --force XMP_prodMat4.query
 
 cd $hometmp
 

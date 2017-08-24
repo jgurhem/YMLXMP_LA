@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<config>
+  <group name="general">
+    <entry name="execution-catalog"  value="DefaultExecutionCatalog" /> 
+    <entry name="version"            value="1.0" />
+    <entry name="maxNumberRequest"   value="500" />
+    <entry name="hostfileDir"        value="/gpfshome/mds/staff/jgurhem/test_xmp/app/test_64/.omrpc_registry" />
+    <entry name="verbose"            value="no" /> 
+  </group>
+</config>

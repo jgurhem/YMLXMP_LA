@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <component type="impl" name="XMP_prodDiff" abstract="XMP_prodDiff" 
 	description="C = C-(B x A)">
-<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTMAT1,DISTMAT2)">
+<impl lang="XMP"  nodes="CPU:(DISTMAT1,DISTMAT2)">
   <templates>
     <template name="t" format="block,block" size="SIZE,SIZE"/>
   </templates>

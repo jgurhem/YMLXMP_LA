@@ -4,7 +4,7 @@
         name="XMP_saveVectorU"
         description="Implementation component of saveVectorU"
         abstract="XMP_saveVectorU">
-	<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTVECT)">	
+	<impl lang="XMP" nodes="CPU:(DISTVECT)">	
 <header>	
   <templates>
     <template name="p" format="block" size="SIZE" />
@@ -21,11 +21,16 @@
 </header>
 		<source>
 		<![CDATA[
-		
+	
+        MPI_Info info;
+        MPI_Info_create(&info);
+        MPI_Info_set(info, "romio_ds_write", "disable");
+        MPI_Info_set(info, "romio_ds_read",  "disable");
+
 	int i,j;
 	char temp[10] = "";
 	char buf[100];
-	char nameFile[50] = "/home/xinzhewu/res/init/u";
+	char nameFile[50] = "/scratch_p/jegurhem/res/init/u";
 	sprintf(temp, "%d", index);
 	strcat(nameFile, temp);
 

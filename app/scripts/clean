@@ -1,0 +1,5 @@
+rm *yapp
+rm out-*
+rm submit-*
+rm *.query
+rm -r run*

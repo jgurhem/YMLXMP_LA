@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<application name="tests">
+<description> some tests
+</description>
+<graph>
+
+compute XMP_genVect(vA,1);
+compute XMP_saveVectorB(1,vA);
+
+compute XMP_genMat(mA,1,1);
+compute XMP_saveInitMat(1,1,mA);
+
+compute XMP_solveLinearSystemOpti(mA,vA);
+
+compute XMP_saveVectorU(1,vA);
+
+</graph>
+</application>

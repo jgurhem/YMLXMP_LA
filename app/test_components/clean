@@ -1,2 +1,9 @@
-rm -r run* yml*
+rm ~/local/var/yml/dr/packout/*
+rm ~/local/var/yml/dr/packin/*
+rm -r /gpfsdata/jgurhem/workdir/*
+rm -r run*
+rm *~
 rm *yapp
+rm ymlxmp*
+rm yml_scheduler*
+rm core*

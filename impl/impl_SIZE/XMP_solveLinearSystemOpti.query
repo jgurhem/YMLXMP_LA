@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<component type="impl" name="XMP_solveLinearSystemOpti"
+	abstract="XMP_solveLinearSystemOpti"
+	description="solve Ax=b and save the results into b">
+<impl lang="XMP"  nodes="CPU:(DISTVECT)">
+  <templates>
+    <template name="t" format="cyclic" size="SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="A0(SIZE,SIZE)" align="[i][*]:(i)"/>
+    <param template="t" name="b0(SIZE)" align="[i]:(i)"/>
+  </distribute>
+<header>
+<![CDATA[
+#include<xmp.h>
+double akj[SIZE];
+]]>
+</header>
+<source>
+<![CDATA[
+double btemp;
+int n,i,j,k;
+
+n=SIZE;
+
+for(k=0;k<n;k++){
+
+	btemp=0.0;
+#pragma xmp task on t(k)
+	{	
+		for(i=k+1;i<n;i++){
+			A0[k][i] = A0[k][i] / A0[k][k];
+		} 
+ 
+ 		b0[k] = b0[k] / A0[k][k];
+		btemp = b0[k];	
+	}
+#pragma xmp reduction(+:btemp)
+
+        for(j=k+1;j<n;j++){
+                akj[j]=0.0;
+        }
+
+#pragma xmp task on t(k)
+        for(j=k+1;j<n;j++){
+                akj[j] = A0[k][j]; 
+        }
+#pragma xmp reduction(+:akj) on t(k:n)
+
+#pragma xmp loop (i) on t(i)
+        for(i=k+1;i<n;i++){
+                for(j=k+1;j<n;j++){
+                        A0[i][j] = A0[i][j] - A0[i][k] * akj[j];
+                }
+		b0[i] = b0[i] - A0[i][k] * btemp;
+	}
+}
+
+//#pragma xmp task on t(n-1)
+//b0[n-1] = b0[n-1] / A0[n-1][n-1];
+
+for(k=n-1;k>0;k--){
+
+	btemp=0.0;
+#pragma xmp task on t(k)
+	btemp=b0[k];
+#pragma xmp reduction(+:btemp)
+
+#pragma xmp loop (i) on t(i)
+	for (i=0;i<k;i++){
+		b0[i] = b0[i] - A0[i][k] * btemp;
+	}
+}
+]]>
+</source>
+<footer />
+</impl>
+</component>
+

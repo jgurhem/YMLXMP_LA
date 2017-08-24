@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<component type="impl" 
+	name="XMP_prodMat4" 
+	abstract="XMP_prodMat4" 
+	description="C = B x A">
+<impl lang="XMP" nodes="CPU:(DISTMAT1,DISTMAT2)">
+  <templates>
+    <template name="t" format="block,block" size="SIZE,SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="C0(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+    <param template="t" name="B0(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+    <param template="t" name="A0(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+  </distribute>
+<header>
+<![CDATA[
+#include<xmp.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <xmp_io.h>
+
+double A[SIZE][SIZE];
+double B[SIZE][SIZE];
+
+#pragma xmp align A[i][j] with t(j,i)
+#pragma xmp align B[i][j] with t(j,i)
+
+#pragma xmp shadow A[*][0]
+#pragma xmp shadow B[0][*]
+]]>
+</header>
+<source>
+<![CDATA[
+  int    i, j, k, n, jj;
+  double x, dtmp;
+
+  n = SIZE;
+  char buf[100];
+  char nameFile[50] = "/gpfsdata/jgurhem/res/init/testprodmat4_0";
+  char nameFile1[50] = "/gpfsdata/jgurhem/res/init/testprodmat4_1";
+  char nameFile2[50] = "/gpfsdata/jgurhem/res/init/testprodmat4_2";
+
+  xmp_file_t * file;
+  file = xmp_fopen_all(nameFile,"w");
+
+  xmp_file_t * file1;
+  file1 = xmp_fopen_all(nameFile1,"w");
+
+  xmp_file_t * file2;
+  file2 = xmp_fopen_all(nameFile2,"w");
+
+#pragma xmp loop (i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      B[i][j]=0;
+    }
+  }
+
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      B[i][j]=B0[i][j];
+      B0[i][j]=0.0;
+    }
+  }
+
+
+  for(i=0;i<n;i++){
+//#pragma xmp loop (j) on t(j,i)
+    for(j=0;j<n;j++){
+      A[i][j]=666;
+    }
+ }
+
+#pragma xmp barrier
+
+for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      sprintf(buf,"%d %d %d %lf\n",xmp_all_node_num(),i,j,A[i][j]);
+      xmp_fwrite_shared(file,buf,strlen(buf),1);
+    }
+  } 
+
+#pragma xmp barrier
+
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      A[i][j]=A0[i][j];
+    }
+  }
+
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      sprintf(buf,"%d %d %d %lf\n",xmp_all_node_num(),i,j,A[i][j]);
+      xmp_fwrite_shared(file1,buf,strlen(buf),1);
+    }
+  }
+
+#pragma xmp barrier
+#pragma xmp reflect (A,B)
+#pragma xmp barrier
+
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      sprintf(buf,"%d %d %d %lf\n",xmp_all_node_num(),i,j,A[i][j]);
+      xmp_fwrite_shared(file2,buf,strlen(buf),1);
+    }
+  }
+
+#pragma xmp loop (i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(k=0;k<n;k++){
+      if(B[i][k]!=0){
+        dtmp=B[i][k];
+#pragma xmp loop (j) on t(j,i)
+        for(j=0;j<n;j++){
+ C0[i][j] += (dtmp*A[k][j]) ;
+        }
+      }
+    }
+  }
+
+xmp_fclose_all(file);
+xmp_fclose_all(file1);
+xmp_fclose_all(file2);
+
+
+]]>
+</source>
+<footer />
+</impl>
+</component>
+

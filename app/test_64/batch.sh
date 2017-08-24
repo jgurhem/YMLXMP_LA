@@ -13,4 +13,4 @@
 
 module purge
 module load gnu/5.4.0 gnu-env/5.4.0 intel intelmpi autotools/Feb2014
-mpirun -n 1 yml_scheduler *.query.yapp
+mpirun -n 1 yml_scheduler --config-dir=/gpfshome/mds/staff/jgurhem/test_xmp/app/test_64/ *.query.yapp

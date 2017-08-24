@@ -7,9 +7,9 @@
 
 #SBATCH --time=00:30:00
 
-#SBATCH -n 80
-#SBATCH -N 5
+#SBATCH -n 1040
+#SBATCH -N 65
 
-#mpirun -n 1 yml_scheduler gaussJordan.query.yapp
+. ~/env_yml-xmp.sh
 mpirun -n 1 yml_scheduler *.yapp
 
