@@ -1,0 +1,2 @@
+rm -r run* yml*
+rm *yapp

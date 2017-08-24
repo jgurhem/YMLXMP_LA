@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<component type="impl" name="add" abstract="add">
+<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTMAT1,DISTMAT2)">
+<templates>
+<template name="t" format="block,block" size="SIZE,SIZE"/>
+</templates>
+<distribute>
+<param template="t" name="A(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+<param template="t" name="B(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+<param template="t" name="C(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+</distribute>		
+<header>
+<![CDATA[
+#include<xmp.h>
+]]>
+</header>
+<source>
+<![CDATA[
+  int myrank,nprocs;
+  int i,j,n;
+  n=SIZE;
+
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      C[i][j]=A[i][j]+B[i][j];
+    }
+  }
+
+]]>
+</source>
+</impl>
+</component>
+

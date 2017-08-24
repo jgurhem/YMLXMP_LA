@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_saveInitMat" description="save a matrix into a directory" >
+		<params>
+			<param name="indexI" type="integer" mode="in" />
+			<param name="indexJ" type="integer" mode="in" />
+			<param name="matIn" type="Matrix" mode="in" />
+		</params>
+</component>
+

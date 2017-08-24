@@ -1,0 +1,14 @@
+This folder contains 5 different YML applications :
+-LU factorization (blockLU.query)
+-LU factorization used to solve a linear system (blockLUsolveLS.query)
+-Gaussian ellimination used to solve a linear system (blockGauss.query)
+-Gauss Jordan used to solve a linear system (blockGaussJordan.query)
+-Gauss Jordan used to invert a matrix (gaussJordan_inv.query)
+
+It contains also the same applications implemented with components that save the initial matrices and/or vectors and the final ones. It allows debug and verification of the results.
+
+To compile them use
+./compile name
+where name corresponds at name.query
+
+The folder test_components contains  test applications for each component. To compile them you will have to use the ./compileXXXX file associated to the component. It also redeploy the implementation component by using ./impl_SIZE/deploy (see impl/README for more informations) then recompile the tested component.

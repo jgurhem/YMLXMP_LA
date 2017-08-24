@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<component type="impl" name="XMP_genVect" abstract="XMP_genVect">
+<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTVECT)">
+  <templates>
+    <template name="t" format="block" size="SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="v(SIZE)" align="[i]:(i)"/>
+  </distribute>		
+  <source>
+<![CDATA[
+	int i,n;
+
+	srandom(iseed*164364);
+	n = SIZE;
+	#pragma xmp loop (i) on t(i)
+	for(i=0;i<n;i++){
+		v[i]=10.0 * ((i+1) * rand()) / ((RAND_MAX) + n); 
+	}
+]]>
+  </source>
+<footer />
+</impl>
+</component>
+

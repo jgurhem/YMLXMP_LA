@@ -1,0 +1,22 @@
+The folder impl_SIZE contains all the YML/XMP components for bbgj and for resolution of linear système developped by Jérôme Gurhem <Jérôme.gurhem@polytech-lille.net>. In this folder, the components have a generic size of matrix blocks and distribution of processors. Those components generate or use a SIZE by SIZE matrix and a vector of size SIZE. Moreover, the distribution of processors is CPU(DISTMAT1,DISTMAT2) when we use a DISTMAT1xDISTMAT2 grid of processors (prodMat, prodMat2, prodDiff, genMat...) or is CPU(DISTVECT,1) or CPU(DISTVECT) when we need a one dimensional set of processors. Usually DISTVECT=DISTMAT1*DISTMAT2.
+
+The current folder and the impl_SIZE contain a bunch of bash scripts that will allow you to change the size and the distribution of the processors by whatever value you want.
+
+WARNING : It is highly recommended to change the code into impl_SIZE then use the deploy script.
+
+file: ./deploy
+use: ./deploy
+desc: It will first remove all impl_size* folders then create 3 folder impl_size4/ impl_size32/ impl_size64/. Those folders will contain components with fixed size of 4, 32 and 64. In those folders there will also have a impl_p4 folder where the distribution of the processors will be modified. It also copy the compile script.
+
+file: ./impl_SIZE/changesize
+use:  cd impl_SIZE; ./changesize SIZE
+desc: it will create the folder ./impl_sizeSIZE containing components with fixed size. This file is used by the deploy script. It also copy ./impl_SIZE/changep ./impl_SIZE/changeAllP and the compile script in the new folder.
+
+file: ./impl_SIZE/changep
+use: cd  ./impl_sizeSIZE/; changep DISTVECT DISTMAT1 DISTMAT2
+desc: create ./impl_sizeSIZE/impl_pDISTVECT folder containing components with the given distribution. This file is used by the deploy script. It also copy the compile script in the new folder.
+
+file: ./impl_SIZE/changeAllP
+use: cd  ./impl_sizeSIZE/; changeAllP
+desc: It creates a bunch of different distribution. It also copy the compile script in each new folder.
+

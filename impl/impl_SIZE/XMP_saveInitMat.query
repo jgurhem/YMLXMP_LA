@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<component
+        type="impl"
+        name="XMP_saveInitMat"
+        description="Implementation component of saveInitMat"
+        abstract="XMP_saveInitMat">
+	<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTMAT1,DISTMAT2)">		
+<header>
+  <templates>
+    <template name="p" format="block,block" size="SIZE,SIZE" />
+  </templates>
+  <distribute>
+    <param template="p" name="matIn(SIZE,SIZE)" align="[i][j]:(j,i)" />
+  </distribute>	
+		<![CDATA[	
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <xmp_io.h>
+]]>	
+</header>
+		<source>
+		<![CDATA[
+	
+	int i,j;
+	char temp[10] = "";
+	char buf[100];
+	char nameFile[50] = "/home/xinzhewu/res/init/a";	
+    	sprintf(temp, "%d,%d", indexI,indexJ);
+    	strcat(nameFile, temp);
+
+	xmp_file_t * file;
+
+	file = xmp_fopen_all(nameFile,"w");
+
+#pragma xmp loop (j,i) on p(j,i)
+	for(i = 0 ; i < SIZE ; i++) {
+                for(j = 0; j < SIZE ; j++){
+                        sprintf(buf,"%d %d %lf\n",i,j,matIn[i][j]);
+			//printf("%s",buf);
+			//fprintf(stderr,"saveInitMat : %d %d %lf \n",i,j,matIn[i][j]);
+                        xmp_fwrite_shared(file,buf,strlen(buf),1);
+		}
+		//fprintf(f,"\n");
+	}
+
+	xmp_fclose_all(file);
+        ]]>
+        		</source>
+		<footer />
+	</impl>
+</component>
+

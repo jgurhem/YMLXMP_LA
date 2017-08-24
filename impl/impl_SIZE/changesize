@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mkdir ../impl_size$1
+cp compile ../impl_size$1
+cp changep ../impl_size$1
+cp changeAllP ../impl_size$1
+
+for i in `ls *.query`
+do
+	sed -e "s/SIZE/$1/g" $i > ../impl_size$1/$i
+done

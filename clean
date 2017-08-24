@@ -1,0 +1,4 @@
+find . -name *~ -exec rm {} \;
+find . -name *.o -exec rm {} \;
+find . -name *yapp -exec rm {} \;
+find . -name __omni* -exec rm -r {} \;

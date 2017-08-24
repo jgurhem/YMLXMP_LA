@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<component type="impl" name="XMP_genMat" abstract="XMP_genMat">
+<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTMAT1,DISTMAT2)">
+  <templates>
+    <template name="t" format="block,block" size="SIZE,SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="m(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+  </distribute>		
+  <source>
+<![CDATA[
+  int i,j,n;
+
+  srandom(iseed*1643645+jseed);
+  n = SIZE;
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      m[i][j]=10.0 * ((i+j+1) * rand()) /((RAND_MAX) + 2*n); 
+      //fprintf(stderr,"genMat : %d %d %lf \n",i,j,m[i][j]);
+      //m[i][j]=1 + rand() /2147483647; 
+    }
+  }
+]]>
+  </source>
+<footer />
+</impl>
+</component>
+

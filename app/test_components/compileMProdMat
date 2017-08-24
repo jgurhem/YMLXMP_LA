@@ -1,0 +1,24 @@
+hometmp=$(pwd)
+
+rm -r ~/test_xmp/impl/impl_size*
+
+cd ~/test_xmp/impl/impl_SIZE
+./changesize 4
+
+cd ../impl_size4
+./changep 4 2 2
+
+cd impl_p4/
+yml_component --force XMP_mProdMat.query
+
+cd $hometmp
+
+yml_compiler testMProdMat.query 
+
+omrpc-register-yml testMProdMat.query.yapp | grep ^testMProdMat > stubs
+echo " " >> stubs
+cp stubs  ~/.omrpc_registry
+cp hosts ~/.omrpc_registry/nodes
+#cp mpi.xcf ../../etc/yml/
+#cat stubs
+#echo "mpirun -n 1 -machinefile ./hosts yml_scheduler gaussJordan.query.yapp"

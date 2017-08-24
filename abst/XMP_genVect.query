@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_genVect">
+<params>
+<param name="v" type="vector" mode="out" />
+<param name="iseed" type="integer" mode="in" />
+</params>
+</component>
+

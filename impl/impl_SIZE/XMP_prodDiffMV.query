@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<component type="impl" name="XMP_prodDiffMV" abstract="XMP_prodDiffMV" 
+	description="res = res - (B * x)">
+<impl lang="XMP" libs="include_lib_intel"  nodes="CPU:(DISTVECT)">
+  <templates>
+    <template name="t" format="block" size="SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="B0(SIZE,SIZE)" align="[i][*]:(i)"/>
+    <param template="t" name="x0(SIZE)" align="[i]:(i)"/>
+    <param template="t" name="res(SIZE)" align="[i]:(i)"/>
+  </distribute>
+<header>
+<![CDATA[
+#include<xmp.h>
+
+double x[SIZE];
+#pragma xmp align x[i] with t(i)
+#pragma xmp shadow x[*]
+
+]]>
+</header>
+<source>
+<![CDATA[
+  int    i, j, k, n;
+  double tmp;
+  n = SIZE;
+
+#pragma xmp loop (i) on t(i)
+  for(i=0;i<n;i++){
+    x[i]=x0[i];
+  }
+
+#pragma xmp reflect (x)
+
+#pragma xmp loop (i) on t(i)
+  for(i=0;i<n;i++){
+      tmp=0.0;
+      for(k=0;k<n;k++)
+        tmp+= (B0[i][k]*x[k]) ;
+      res[i]-=tmp;
+  }
+]]>
+</source>
+<footer />
+</impl>
+</component>
+

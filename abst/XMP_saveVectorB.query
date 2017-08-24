@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_saveVectorB" description="save a vector into a directory" >
+		<params>
+			<param name="index" type="integer" mode="in" />
+			<param name="vect" type="vector" mode="in" />
+		</params>
+</component>
+

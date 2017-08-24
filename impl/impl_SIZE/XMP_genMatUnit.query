@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<component type="impl" name="XMP_genMatUnit" abstract="XMP_genMatUnit">
+<impl lang="XMP" libs="include_lib_intel" nodes="CPU:(DISTMAT1,DISTMAT2)">
+  <templates>
+    <template name="t" format="block,block" size="SIZE,SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="m(SIZE,SIZE)" align="[i][j]:(j,i)"/>
+  </distribute>
+<header>
+<![CDATA[
+]]>
+</header>
+<source>
+<![CDATA[
+  int i,j,n;
+
+  n=SIZE;
+#pragma xmp loop (j,i) on t(j,i)
+  for(i=0;i<n;i++){
+    for(j=0;j<n;j++){
+      if(i==j)
+        m[i][j]=1.0;
+      else
+        m[i][j]=0.0;
+    }
+  }
+
+]]>
+</source>
+<footer />
+</impl>
+</component>

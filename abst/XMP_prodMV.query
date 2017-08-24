@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_prodMV" 
+	description="x0=B0*x0" >
+<params>
+<param name="B0" type="Matrix" mode="in" />
+<param name="x0" type="vector" mode="inout" />
+</params>
+</component>
+

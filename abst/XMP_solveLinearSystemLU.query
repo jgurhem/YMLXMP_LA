@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_solveLinearSystemLU" 
+	description="Solve the linear system A0 * x = b0" >
+<params>
+<param name="A0" type="Matrix" mode="in" />
+<param name="b0" type="vector" mode="inout" />
+</params>
+</component>
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_prodDiffMV" 
+	description="res=res-(B0*x0)" >
+<params>
+<param name="B0" type="Matrix" mode="in" />
+<param name="x0" type="vector" mode="in" />
+<param name="res" type="vector" mode="inout" />
+</params>
+</component>
+
