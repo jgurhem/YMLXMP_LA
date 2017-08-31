@@ -18,6 +18,10 @@ echo "#!/bin/bash
 #SBATCH --error=out-run-$test.%J.err
 #SBATCH --output=out-run-$test.%J.out
 
+#SBATCH --reservation=jegurhem_5403
+#SBATCH --qos=short
+#SBATCH -p romeo
+
 #SBATCH --time=01:00:00
 
 #SBATCH -n $nbhosts

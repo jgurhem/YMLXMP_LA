@@ -597,88 +597,67 @@ run1_results.pack
  
 
 
-
 =================================================================
-(h80  n5)  blockGaussJordan   8   2048    32
+(h80  n5)  resGaussJordan   3   64    32
 =================================================================
 
-lun. août 21 08:48:09 CEST 2017
+ven. août 25 12:18:38 CEST 2017
 nb worker
-0
+13
 
 temps exec (gen)
-t= 0
+t= 12.7768
 total use (gen)
-
+34.3549
 
 temps exec
-t= 0
+t= 11.1346
 total use
+32.9454
 
-
+run1_results.pack
  
 
 
 
 =================================================================
-(h80  n5)  resGauss   8   64    32
+(h80  n5)  resGauss   3   64    32
 =================================================================
 
-lun. août 21 09:05:07 CEST 2017
+ven. août 25 12:37:11 CEST 2017
 nb worker
-0
+13
 
 temps exec (gen)
-t= 0
+t= 14.3874
 total use (gen)
-
+36.5803
 
 temps exec
-t= 0
+t= 11.8821
 total use
+34.7837
 
-
+run1_results.pack
  
 
 
 
 =================================================================
-(h80  n5)  resGauss   8   64    32
+(h80  n5)  resLU   3   64    32
 =================================================================
 
-lun. août 21 09:13:34 CEST 2017
+ven. août 25 12:57:12 CEST 2017
 nb worker
-0
+11
 
 temps exec (gen)
-t= 0
+t= 9.61961
 total use (gen)
-
+31.4855
 
 temps exec
-t= 0
+t= 8.15508
 total use
-
-
- 
-
-
-
-=================================================================
-(h80  n5)  gaussJordan_inv   8   64    32
-=================================================================
-
-lun. août 21 09:19:37 CEST 2017
-nb worker
-0
-
-temps exec (gen)
-t= 0
-total use (gen)
-
-
-temps exec
-t= 0
-total use
-
+30.9837
 

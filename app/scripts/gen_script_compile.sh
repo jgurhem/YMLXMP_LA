@@ -29,6 +29,10 @@ echo "#!/bin/bash
 #SBATCH --error=out-compile-$test.%J-$blocks-$size-$procs.err
 #SBATCH --output=out-compile-$test.%J-$blocks-$size-$procs.out
 
+#SBATCH --reservation=jegurhem_5403
+#SBATCH --qos=short
+#SBATCH -p romeo
+
 #SBATCH --time=00:30:00
 
 #SBATCH -n 1
