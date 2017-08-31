@@ -4,7 +4,7 @@
         name="XMP_saveInitMat"
         description="Implementation component of saveInitMat"
         abstract="XMP_saveInitMat">
-	<impl lang="XMP" nodes="CPU:(DISTMAT1,DISTMAT2)">		
+	<impl lang="XMP" nodes="CPU:(1,1)">		
 <header>
   <templates>
     <template name="p" format="block,block" size="SIZE,SIZE" />
@@ -22,10 +22,6 @@
 		<source>
 		<![CDATA[
 	
-        MPI_Info info;
-        MPI_Info_create(&info);
-        MPI_Info_set(info, "romio_ds_write", "disable");
-        MPI_Info_set(info, "romio_ds_read",  "disable");
 	int i,j;
 	char temp[10] = "";
 	char buf[100];

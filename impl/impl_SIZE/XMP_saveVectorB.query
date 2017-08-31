@@ -4,7 +4,7 @@
         name="XMP_saveVectorB"
         description="Implementation component of saveVectorB"
         abstract="XMP_saveVectorB">
-	<impl lang="XMP" nodes="CPU:(DISTVECT)">	
+	<impl lang="XMP" nodes="CPU:(1)">	
 <header>	
   <templates>
     <template name="p" format="block" size="SIZE" />
@@ -21,11 +21,6 @@
 </header>
 		<source>
 		<![CDATA[
-	
-	MPI_Info info;
-	MPI_Info_create(&info);
-	MPI_Info_set(info, "romio_ds_write", "disable");
-	MPI_Info_set(info, "romio_ds_read",  "disable");
 	
 	int i,j;
 	char temp[10] = "";
