@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_factoLU"
+	description="LU factorization of A. Results in A" >
+<params>
+<param name="A0" type="Matrix" mode="inout" />
+</params>
+</component>
+

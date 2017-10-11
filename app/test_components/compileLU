@@ -1,0 +1,24 @@
+hometmp=$(pwd)
+
+rm -r ../../impl/impl_size*
+
+cd ../../impl/impl_SIZE
+. changesize 8 
+
+cd ../impl_size8
+. changep 4 2 2
+
+cd impl_p4/
+yml_component --force XMP_factoLU.query
+
+cd $hometmp
+
+yml_compiler testLU.query 
+
+omrpc-register-yml testLU.query.yapp | grep ^testLU > stubs
+echo " " >> stubs
+cp stubs  ~/.omrpc_registry
+cp hosts ~/.omrpc_registry/nodes
+#cp mpi.xcf ../../etc/yml/
+#cat stubs
+

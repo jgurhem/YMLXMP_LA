@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<application name="tests">
+<description> some tests
+</description>
+<graph>
+
+compute XMP_genMat(mA,1,1);
+compute XMP_saveInitMat(0,0,mA);
+
+compute XMP_factoLU(mA);
+
+compute XMP_saveLUMat(0,0,mA);
+</graph>
+</application>

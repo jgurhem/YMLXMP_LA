@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<component type="impl" name="XMP_solveLinearSystemLU" 
-	abstract="XMP_solveLinearSystemLU" 
+<component type="impl" name="XMP_solveLinearSystemLU"
+	abstract="XMP_solveLinearSystemLU"
 	description="solve Ax=b and save the results into b">
 <impl lang="XMP"  nodes="CPU:(DISTVECT)">
   <templates>
@@ -13,105 +13,73 @@
 <header>
 <![CDATA[
 #include<xmp.h>
+double akj[SIZE];
 ]]>
 </header>
 <source>
 <![CDATA[
-double btemp, akj, akk;
+double btemp, akk, bi;
 int n,i,j,k;
 
 n=SIZE;
 
-for (k=0; k<n-1; k++ ){
-	akk=0.0;
+for (k=0;k<n-1;k++){
+	akk = 0.0;
 #pragma xmp task on t(k)
 	akk=A0[k][k];
-#pragma xmp reduction(+:akk)	
+#pragma xmp reduction(+:akk)
 
 
 #pragma xmp loop (i) on t(i)
 	for(i=k+1;i<n;i++){
 		A0[i][k] = A0[i][k] / akk;
+	}
 
-		for(j=k+1;j<n;j++){
+	for(j=k+1;j<n;j++){
+		akj[j] = 0.0;
+	}
 
-
-			akj=0.0;
 #pragma xmp task on t(k)
-			akj=A0[k][j];
-#pragma xmp reduction(+:akj)	
-			
-			A0[i][j] = A0[i][j] - A0[i][k] * akj;
+	for(j=k+1;j<n;j++){
+		akj[j] = A0[k][j];
+	}
+#pragma xmp reduction(+:akj)
+
+#pragma xmp loop (i) on t(i)
+	for(i=k+1;i<n;i++){ 
+		for(j=k+1;j<n;j++){
+			A0[i][j] = A0[i][j] - A0[i][k] * akj[j];
 		}
 	}
 }
 
-/*
 for(i=0;i<n-1;i++){
+        bi = 0.0;
+#pragma xmp task on t(i)
+        bi = b0[i];
+#pragma xmp reduction(+:bi)
+
+#pragma xmp loop (k) on t(k)
 	for (k=i+1;k<n;k++){
-		b0[k] = b0[k] - A0[k][i] * b0[i];
+		b0[k] = b0[k] - A0[k][i] * bi;
 	}
 }
 
 for(i=n-1;i>=0;i--){
-        b0[i] = b0[i] / A[i][i];
+#pragma xmp task on t(i)
+        b0[i] = b0[i] / A0[i][i];
+
+        bi = 0.0;
+#pragma xmp task on t(i)
+        bi = b0[i];
+#pragma xmp reduction(+:bi)
+
+#pragma xmp loop (k) on t(k)
 	for (k=0;k<i;k++){
-        	b0[k] = b0[k] - A0[k][i] * b0[i];
+        	b0[k] = b0[k] - A0[k][i] * bi;
         }
 }
-*/
 
-/*
-
-
-for(k=0;k<n;k++){
-
-	btemp=0.0;
-#pragma xmp task on t(k)
-	{	
-		for(i=k+1;i<n;i++){
-			A0[k][i] = A0[k][i] / A0[k][k];
-		} 
- 
- 		b0[k] = b0[k] / A0[k][k];
-		btemp = b0[k];	
-	}
-#pragma xmp reduction(+:btemp)
-
-	for(j=k+1;j<n;j++){
-	
-		akj=0.0;
-#pragma xmp task on t(k)
-		akj = A0[k][j];	
-#pragma xmp reduction(+:akj)
-	
-#pragma xmp loop (i) on t(i)
-		for(i=k+1;i<n;i++){
-			A0[i][j] = A0[i][j] - A0[i][k] * akj;
-		}
-
-
-#pragma xmp task on t(j)
-		b0[j] = b0[j] - A0[j][k] * btemp;
-	}
-}
-
-//#pragma xmp task on t(n-1)
-//b0[n-1] = b0[n-1] / A0[n-1][n-1];
-
-for(k=n-1;k>0;k--){
-
-	btemp=0.0;
-#pragma xmp task on t(k)
-	btemp=b0[k];
-#pragma xmp reduction(+:btemp)
-
-#pragma xmp loop (i) on t(i)
-	for (i=0;i<k;i++){
-		b0[i] = b0[i] - A0[i][k] * btemp;
-	}
-}
-*/
 ]]>
 </source>
 <footer />
