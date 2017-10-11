@@ -1,17 +1,17 @@
 #!/bin/sh
 hometmp=$(pwd)
 
-rm -r /gpfsdata/jgurhem/test_xmp/impl/impl_size*
+rm -r ../../impl/impl_size*
 
-cd /gpfsdata/jgurhem/test_xmp/impl/impl_SIZE
-./changesize 8 
+cd ../../impl/impl_SIZE
+. changesize 8 
 
 cd ../impl_size8
-./changep 4 2 2
+. changep 4 2 2
 
 cd impl_p4/
 yml_component --force XMP_solveLinearSystem.query
-#./compile
+#. compile
 
 cd $hometmp
 

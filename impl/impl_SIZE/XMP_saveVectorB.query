@@ -4,28 +4,28 @@
         name="XMP_saveVectorB"
         description="Implementation component of saveVectorB"
         abstract="XMP_saveVectorB">
-	<impl lang="XMP" nodes="CPU:(1)">	
-<header>	
+	<impl lang="XMP" nodes="CPU:(DISTVECT)">
+<header>
   <templates>
     <template name="p" format="block" size="SIZE" />
   </templates>
   <distribute>
     <param template="p" name="vect(SIZE)" align="[i]:(i)" />
-  </distribute>	
-		<![CDATA[	
+  </distribute>
+		<![CDATA[
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <xmp_io.h>
-]]>	
+]]>
 </header>
 		<source>
 		<![CDATA[
-	
+
 	int i,j;
 	char temp[10] = "";
 	char buf[100];
-	char nameFile[50] = "/scratch_p/jegurhem/res/init/b";
+	char nameFile[50] = "DIR/init/b";
 	sprintf(temp, "%d", index);
 	strcat(nameFile, temp);
 
