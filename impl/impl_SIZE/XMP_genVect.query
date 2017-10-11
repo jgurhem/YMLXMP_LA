@@ -6,7 +6,7 @@
   </templates>
   <distribute>
     <param template="t" name="v(SIZE)" align="[i]:(i)"/>
-  </distribute>		
+  </distribute>
   <source>
 <![CDATA[
 	int i,n;
@@ -15,7 +15,7 @@
 	n = SIZE;
 	#pragma xmp loop (i) on t(i)
 	for(i=0;i<n;i++){
-		v[i]=10.0 * ((i+1) * rand()) / ((RAND_MAX) + n); 
+		v[i]=10.0 * ((i+1) * rand()) / ((RAND_MAX) + n);
 	}
 ]]>
   </source>

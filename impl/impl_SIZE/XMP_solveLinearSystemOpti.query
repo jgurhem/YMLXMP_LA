@@ -27,13 +27,13 @@ for(k=0;k<n;k++){
 
 	btemp=0.0;
 #pragma xmp task on t(k)
-	{	
+	{
 		for(i=k+1;i<n;i++){
 			A0[k][i] = A0[k][i] / A0[k][k];
-		} 
- 
+		}
+
  		b0[k] = b0[k] / A0[k][k];
-		btemp = b0[k];	
+		btemp = b0[k];
 	}
 #pragma xmp reduction(+:btemp)
 
@@ -43,7 +43,7 @@ for(k=0;k<n;k++){
 
 #pragma xmp task on t(k)
         for(j=k+1;j<n;j++){
-                akj[j] = A0[k][j]; 
+                akj[j] = A0[k][j];
         }
 #pragma xmp reduction(+:akj) on t(k:n)
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<component type="abstract" name="XMP_prodDiffMV" 
+<component type="abstract" name="XMP_prodDiffMV"
 	description="res=res-(B0*x0)" >
 <params>
 <param name="B0" type="Matrix" mode="in" />

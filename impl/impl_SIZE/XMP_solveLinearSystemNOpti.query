@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <component type="impl" name="XMP_solveLinearSystemNOpti"
-	abstract="XMP_solveLinearSystemNOpti" 
+	abstract="XMP_solveLinearSystemNOpti"
 	description="solve Ax=b and save the results into b">
 <impl lang="XMP"  nodes="CPU:(DISTVECT)">
   <templates>
@@ -26,23 +26,23 @@ for(k=0;k<n;k++){
 
 	btemp=0.0;
 #pragma xmp task on t(k)
-	{	
+	{
 		for(i=k+1;i<n;i++){
 			A0[k][i] = A0[k][i] / A0[k][k];
-		} 
- 
+		}
+
  		b0[k] = b0[k] / A0[k][k];
-		btemp = b0[k];	
+		btemp = b0[k];
 	}
 #pragma xmp reduction(+:btemp)
 
 	for(j=k+1;j<n;j++){
-	
+
 		akj=0.0;
 #pragma xmp task on t(k)
-		akj = A0[k][j];	
+		akj = A0[k][j];
 #pragma xmp reduction(+:akj)
-	
+
 #pragma xmp loop (i) on t(i)
 		for(i=k+1;i<n;i++){
 			A0[i][j] = A0[i][j] - A0[i][k] * akj;

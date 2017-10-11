@@ -6,7 +6,7 @@
   </templates>
   <distribute>
     <param template="t" name="m(SIZE,SIZE)" align="[i][j]:(j,i)"/>
-  </distribute>		
+  </distribute>
   <source>
 <![CDATA[
   int i,j,n;
@@ -16,8 +16,8 @@
 #pragma xmp loop (j,i) on t(j,i)
   for(i=0;i<n;i++){
     for(j=0;j<n;j++){
-      m[i][j]=1+(iseed*n+i)*n*nblock+jseed*n+j; 
-      //m[i][j]=1 + rand() /2147483647; 
+      m[i][j]=1+(iseed*n+i)*n*nblock+jseed*n+j;
+      //m[i][j]=1 + rand() /2147483647;
     }
   }
 ]]>

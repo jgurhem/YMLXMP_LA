@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<component type="impl" name="XMP_prodMV" abstract="XMP_prodMV" 
+<component type="impl" name="XMP_prodMV" abstract="XMP_prodMV"
 	description="x = B * x">
 <impl lang="XMP"  nodes="CPU:(DISTVECT)">
   <templates>

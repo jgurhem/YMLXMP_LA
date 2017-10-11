@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<component type="impl" 
-	name="XMP_prodMat4" 
-	abstract="XMP_prodMat4" 
+<component type="impl"
+	name="XMP_prodMat4"
+	abstract="XMP_prodMat4"
 	description="C = B x A">
 <impl lang="XMP" nodes="CPU:(DISTMAT1,DISTMAT2)">
   <templates>
@@ -80,7 +80,7 @@ for(i=0;i<n;i++){
       sprintf(buf,"%d %d %d %lf\n",xmp_all_node_num(),i,j,A[i][j]);
       xmp_fwrite_shared(file,buf,strlen(buf),1);
     }
-  } 
+  }
 
 #pragma xmp barrier
 

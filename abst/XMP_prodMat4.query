@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <component type="abstract" name="XMP_prodMat4"
-	description="C0=A0xB0"> 
+	description="C0=A0xB0">
 <params>
 <param name="C0" type="Matrix" mode="out" />
 <param name="B0" type="Matrix" mode="in" />

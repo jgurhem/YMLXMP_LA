@@ -8,7 +8,7 @@
 <param template="t" name="A(SIZE,SIZE)" align="[i][j]:(j,i)"/>
 <param template="t" name="B(SIZE,SIZE)" align="[i][j]:(j,i)"/>
 <param template="t" name="C(SIZE,SIZE)" align="[i][j]:(j,i)"/>
-</distribute>		
+</distribute>
 <header>
 <![CDATA[
 #include<xmp.h>

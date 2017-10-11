@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<component type="abstract" name="XMP_solveLinearSystemOpti" 
+<component type="abstract" name="XMP_solveLinearSystemOpti"
 	description="Solve the linear system A0 * x = b0" >
 <params>
 <param name="A0" type="Matrix" mode="in" />

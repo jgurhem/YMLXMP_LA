@@ -14,7 +14,7 @@ par
 	enddo
 //
 	par(i:=0;blockcount-1)
-	do 
+	do
 		compute XMP_genVect(B[i],i);
 		compute XMP_saveVectorB(i,B[i]);
 		notify(Bev[i][0]);
@@ -22,7 +22,7 @@ par
 endpar
 
 par (k:= 0; blockcount-1)
-do	
+do
 	par
 		wait(Aev[k][k][k]);
 		compute XMP_inversion(A[k][k],AInv[k]);
@@ -58,7 +58,7 @@ do
 		notify(Bev[k][k+1]);
 	//
 		par (i:= 0; blockcount-1)
-		do	
+		do
 			if(k neq i) then
 				#B[i] = B[i] - A[i,k] * B[k]
 				wait(Bev[i][k]);

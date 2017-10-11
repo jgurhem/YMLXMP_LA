@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<component type="impl" 
-	name="XMP_prodMat3" 
-	abstract="XMP_prodMat3" 
+<component type="impl"
+	name="XMP_prodMat3"
+	abstract="XMP_prodMat3"
 	description="C = B x A">
 <impl lang="XMP" nodes="CPU:(DISTMAT1,DISTMAT2)">
   <templates>
