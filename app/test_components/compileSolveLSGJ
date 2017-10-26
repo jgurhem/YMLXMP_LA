@@ -9,6 +9,8 @@ cd ../impl_size8
 . changep 4 2 2
 
 cd impl_p4/
+sed -i "s%DIR%/tmp/res%g" *
+. compile
 yml_component --force XMP_solveLinearSystemGJ.query
 
 cd $hometmp
