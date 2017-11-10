@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<application name="tests">
+<description> some tests
+</description>
+<graph>
+
+compute XMP_genVect(vA,1);
+compute XMP_genMat(mA,1,1);
+
+compute XMP_solveLinearSystemGJ(mA,vA);
+
+</graph>
+</application>
