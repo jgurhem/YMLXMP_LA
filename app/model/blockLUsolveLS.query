@@ -4,103 +4,111 @@
 </description>
 <graph>
 blockcount:=BC;
+varStoreOne:=1;
 
-par
-	par(i:=0;blockcount-1)(j:=0;blockcount-1)
-	do
-		compute XMP_genMat(A[i][j],i,j);
-		notify(p[i][j][0]);
-	enddo
-//
-        par(i:=0;blockcount-1)
-        do
-                compute XMP_genVect(b[i],i);
-                notify(lsystem[i][0]);
-        enddo
-endpar
+if( blockcount eq varStoreOne)
+then
+        compute XMP_genVect(vA,1);
+        compute XMP_genMat(mA,1,1);
+        compute XMP_solveLinearSystem(mA,vA);
+else
+	par
+		par(i:=0;blockcount-1)(j:=0;blockcount-1)
+		do
+			compute XMP_genMat(A[i][j],i,j);
+			notify(p[i][j][0]);
+		enddo
+	//
+		par(i:=0;blockcount-1)
+		do
+			compute XMP_genVect(b[i],i);
+			notify(lsystem[i][0]);
+		enddo
+	endpar
 
-par
-	par(i:=0;blockcount-1)(j:=0;blockcount-1)
-	do
-		if (j gt i) then
-			par(k:=i+1;blockcount-1)
-			do
-				wait(p[k][j][i]);
-				wait(p[k][i][i+1]);
-				wait(p[i][j][i]);
+	par
+		par(i:=0;blockcount-1)(j:=0;blockcount-1)
+		do
+			if (j gt i) then
+				par(k:=i+1;blockcount-1)
+				do
+					wait(p[k][j][i]);
+					wait(p[k][i][i+1]);
+					wait(p[i][j][i]);
 
-				#A[k,j] = A[k,j] - A[k,i] * A[i,j]
-				compute XMP_prodDiff(A[k][i],A[i][j],A[k][j]);
+					#A[k,j] = A[k,j] - A[k,i] * A[i,j]
+					compute XMP_prodDiff(A[k][i],A[i][j],A[k][j]);
 
-				notify(p[k][j][i+1]);
-			enddo
-		else
-			if (i eq j) then
-				if(i neq blockcount-1) then
-					wait(p[i][i][i]);
-
-					#B[i]=inverse(A[i,i])
-					compute XMP_inversion(A[i][i],B[i]);
-
-					notify(p[i][i][i+1]);
-				endif
+					notify(p[k][j][i+1]);
+				enddo
 			else
-				wait(p[j][j][j+1]);
-				wait(p[i][j][j]);
+				if (i eq j) then
+					if(i neq blockcount-1) then
+						wait(p[i][i][i]);
 
-				#A[i,j] = A[i,j] * B[j]
-				compute XMP_prodMat2(A[i][j],B[j]);
+						#B[i]=inverse(A[i,i])
+						compute XMP_inversion(A[i][i],B[i]);
 
-				notify(p[i][j][j+1]);
+						notify(p[i][i][i+1]);
+					endif
+				else
+					wait(p[j][j][j+1]);
+					wait(p[i][j][j]);
+
+					#A[i,j] = A[i,j] * B[j]
+					compute XMP_prodMat2(A[i][j],B[j]);
+
+					notify(p[i][j][j+1]);
+				endif
 			endif
-		endif
-	enddo
-//
-	par(i:= 0;blockcount-2)
-	do
-		par(k:= i+1;blockcount-1)
-		do
-			wait(p[k][i][i+1]);
-			wait(lsystem[i][i]);
-			wait(lsystem[k][i]);
-
-			#b[k] = b[k] - A[k,i] b[i]
-			compute XMP_prodDiffMV(A[k][i],b[i],b[k]);
-
-			notify(lsystem[k][i+1]);
 		enddo
-	enddo
-	par(i:= 0;blockcount-1)
-	do
-		notify(usystem[i][0]);
-	enddo
-//
-	par(i:=0;blockcount-1)
-	do
-		wait(p[i][i][i]);
-		wait(usystem[i][blockcount-i-1]);
-
-		#b[i]=solve(A[i,i],b[i])
-		compute XMP_solveLinearSystem(A[i][i],b[i]);
-
-		notify(usystem[i][blockcount-i]);
-	enddo
-//
-	par(i:=1;blockcount-1)
-	do
-		par(k:= 0;i-1)
+	//
+		par(i:= 0;blockcount-2)
 		do
-			wait(p[k][i][k]);
-			wait(usystem[i][blockcount-i]);
-			wait(usystem[k][blockcount-i-1]);
+			par(k:= i+1;blockcount-1)
+			do
+				wait(p[k][i][i+1]);
+				wait(lsystem[i][i]);
+				wait(lsystem[k][i]);
 
-			#b[k] = b[k] - A[k,i] b[i]
-			compute XMP_prodDiffMV(A[k][i],b[i],b[k]);
+				#b[k] = b[k] - A[k,i] b[i]
+				compute XMP_prodDiffMV(A[k][i],b[i],b[k]);
 
-			notify(usystem[k][blockcount-i]);
+				notify(lsystem[k][i+1]);
+			enddo
 		enddo
-	enddo
-endpar
+		par(i:= 0;blockcount-1)
+		do
+			notify(usystem[i][0]);
+		enddo
+	//
+		par(i:=0;blockcount-1)
+		do
+			wait(p[i][i][i]);
+			wait(usystem[i][blockcount-i-1]);
+
+			#b[i]=solve(A[i,i],b[i])
+			compute XMP_solveLinearSystem(A[i][i],b[i]);
+
+			notify(usystem[i][blockcount-i]);
+		enddo
+	//
+		par(i:=1;blockcount-1)
+		do
+			par(k:= 0;i-1)
+			do
+				wait(p[k][i][k]);
+				wait(usystem[i][blockcount-i]);
+				wait(usystem[k][blockcount-i-1]);
+
+				#b[k] = b[k] - A[k,i] b[i]
+				compute XMP_prodDiffMV(A[k][i],b[i],b[k]);
+
+				notify(usystem[k][blockcount-i]);
+			enddo
+		enddo
+	endpar
+endif
    </graph>
 </application>
 
