@@ -4,7 +4,7 @@
 	description="solve Ax=b and save the results into b">
 <impl lang="XMP"  nodes="CPU:(DISTVECT)">
   <templates>
-    <template name="t" format="block" size="SIZE"/>
+    <template name="t" format="cyclic" size="SIZE"/>
   </templates>
   <distribute>
     <param template="t" name="A0(SIZE,SIZE)" align="[i][*]:(i)"/>
