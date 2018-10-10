@@ -22,9 +22,9 @@ cd ../impl_size$size
 cd impl_p$procs/
 
 #sed -i \"s/lang=\\\"XMP\\\"/lang=\\\"XMP\\\" libs=\\\"include_lib_intel\\\"/g\" *
-sed -i \"s%DIR%/tmp/res%g\" *
+sed -i \"s%DIR%/gpfsdata/jgurhem/res%g\" *
 . compile
 
 cd \$hometmp
-" >> submit-compile-$blocks-$size-$procs.sh
+"
 

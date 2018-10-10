@@ -1,12 +1,13 @@
 #!/bin/sh
 
-blocks=$1
-size=$2
-procs=$3
+name=$1
+blocks=$2
+size=$3
+procs=$4
 
 echo "
 #@ class            = compil
-#@ job_name         = out-compile
+#@ job_name         = out-compile-$name
 #@ total_tasks      = 1
 #@ node             = 1
 #@ wall_clock_limit = 00:30:00
@@ -16,5 +17,5 @@ echo "
 #@ environment      = COPY_ALL
 #@ queue
 #
-" >> submit-compile-$blocks-$size-$procs.sh
+"
 

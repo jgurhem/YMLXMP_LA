@@ -1,56 +1,49 @@
 #!/bin/sh
 array=( blockLU gaussJordan_inv blockGaussJordan blockGauss blockLUsolveLS )
-test=$1
+app=$1
 
 blocks=$2
 size=$3
 procs=$4
-dis1=$5
-dis2=$6
 
-nbhosts=$7
-nbnodes=$8
+nbhosts=$5
+nbnodes=$6
+
+machine=$7
+
+rf="~/results.csv"
 
 echo "
 rm -r run*/data
 
-echo \" 
+echo -n \"$machine;$nbhosts;$nbnodes;$app;$blocks;$size;$procs;\" >> $rf
+echo -n \$(date) >> $rf
 
+. scripts/check_clear run1/exec_log
 
-=================================================================
-(h$nbhosts  n$nbnodes)  $test   $blocks   $size    $procs
-=================================================================
-\" >> results
-date >> results
+echo -n \";\$nbWorker;\$tmpGen;\$totGen;\$tmpNoG;\$totNoG;\" >> $rf
 
-. scripts/check_clear run1/exec_log >> results
-
-sleep 2
-
-echo \"\" >> results
-ls *results.pack >> results
-
-if [ ! -d ~/res_campaign ]
+if [ -f run1_results.pack ]
 then
-        mkdir ~/res_campaign
+	echo -n true >> $rf
+else
+	echo -n false >> $rf
 fi
 
-if [ ! -d ~/res_campaign/$test ]
-then
-	mkdir ~/res_campaign/$test
-fi
+echo \";\$nbTask\" >> $rf
 
-nb=\$[\$(ls ~/res_campaign/$test/$blocks-$size-$procs* | wc -l)+1]
-
-tar -cvf ~/res_campaign/$test/$blocks-$size-$procs---\$nb.tar.gz run* out-run-$test.*
+mkdir -p ~/res_campaign/$app
+nb=\$[\$(ls ~/res_campaign/$app/$blocks-$size-$procs* | wc -l)+1]
+tar -cvf ~/res_campaign/$app/$blocks-$size-$procs---\$nb.tar.gz run* out-run-$app.*
 
 rm -r run*
-rm out-run-$test*
+rm out-run-$app*
+rm core.*
 
 if [ \$(cat todo | wc -l) != 0 ]
 then
         \$(head -n 1 todo)
         sed -i '1d' todo
 fi
-" >> submit-run-$test-$blocks-$size-$procs.sh
+"
 

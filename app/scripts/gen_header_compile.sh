@@ -19,5 +19,5 @@ echo "
 
 #SBATCH -n 1
 #SBATCH -N 1
-" >> submit-compile-$blocks-$size-$procs.sh
+"
 

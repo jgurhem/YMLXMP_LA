@@ -26,5 +26,5 @@ echo "
 
 #SBATCH -n $nbhosts
 #SBATCH -N $nbnodes
-" >> submit-run-$test-$blocks-$size-$procs.sh
+"
 
