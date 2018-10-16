@@ -5,8 +5,6 @@ test=$1
 nbhosts=$2
 
 echo "
-. ~/env_yml-xmp_impi.sh
-
 echo \"localhost\" > hosts
 j=1
 while [ \$j -lt $nbhosts ]  
