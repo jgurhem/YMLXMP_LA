@@ -13,22 +13,25 @@ hometmp=\$(pwd)
 mkdir -p $dir/init $dir/lu
 
 cd ../abst
-bash compile
+for i in *.query
+do
+	yml_component --force \$i
+done
 
-cd ../impl/impl_SIZE
-bash changesize $size
+cd ../impl
+mkdir impl-tmp
+cp -r impl_SIZE/* impl-tmp
+cd impl-tmp
 
-cd ../impl_size$size
-bash changep $procs $dis1 $dis2
-
-cd impl_p$procs/
-
+sed -i \"s/SIZE/$size/g;s/DISTMAT1/$dis1/g;s/DISTMAT2/$dis2/g;s/DISTVECT/$procs/g;s%DIR%$dir%g\" *.query
 #sed -i \"s/lang=\\\"XMP\\\"/lang=\\\"XMP\\\" libs=\\\"include_lib_intel\\\"/g\" *
-sed -i \"s%DIR%$dir%g\" *.query
-. compile
+for i in *.query
+do
+	yml_component --force \$i
+done
 
-cd ../..
-rm -r impl_size*
+cd ..
+rm -r impl-tmp
 
 cd \$hometmp
 "
