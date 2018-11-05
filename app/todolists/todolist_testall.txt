@@ -1,8 +1,0 @@
-. compile_in_batch.sh gaussJordan_inv 4 64 32 8 4
-. compile_in_batch.sh blockGaussJordan 4 64 32 8 4
-. compile_in_batch.sh blockGauss 4 64 32 8 4
-. compile_in_batch.sh blockLU 4 64 32 8 4
-. compile_in_batch.sh blockLUsolveLS 4 64 32 8 4
-. compile_in_batch.sh blockGaussJordan 1 128 16 4 4
-. compile_in_batch.sh blockGauss 1 128 16 4 4
-. compile_in_batch.sh blockLUsolveLS 1 128 16 4 4 
