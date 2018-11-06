@@ -14,7 +14,7 @@ rf="~/results.csv"
 
 echo "
 echo -n \"$machine;$nbhosts;$nbnodes;$app;$blocks;$size;$procs;\" >> $rf
-echo -n \$(date) >> $rf
+echo -n \$(date +%Y%m%d-%H%M%S) >> $rf
 
 . scripts/check_clear run1/exec_log
 
