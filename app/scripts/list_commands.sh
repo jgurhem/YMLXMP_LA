@@ -4,6 +4,32 @@ echocmd(){
 	echo bash compile_in_batch.sh $@
 }
 
+f=()
+intfact(){
+	n=$1
+	f=()
+	for prim in 2 3 5 7 11 13 17 19
+	do
+		let "d = n % prim"
+		while [ $d -eq 0 ]
+		do
+			f+=($prim)
+			let "n = n / prim"
+			let "d = n % prim"
+		done
+		if [ $n -eq 1 ]
+		then
+			break
+		fi
+		if [ $[$prim*$prim] -gt $n ]
+		then
+			f+=($n)
+			break
+		fi
+	done
+}
+
+
 nbhosts=1025
 nbnodes=65
 machine=Poincare
@@ -15,8 +41,6 @@ matrixSize=$2
 maxBlock=16
 minPPT=16
 maxPPT=1024
-minD1=4
-minD2=4
 
 
 i=1
@@ -30,24 +54,31 @@ do
 done
 
 i=$minPPT
-a=$minD1
-b=$minD2
-alt=1
 procs=( )
 while [ $i -le $maxPPT ]
 do
 	procs+=($i)
+	intfact $i
+	a=1
+	b=1
+	for fp in ${f[*]}
+	do
+		if [ $a -lt $b ]
+		then
+			a=$[$a*$fp]
+		else
+			b=$[$b*fp]
+		fi
+	done
+	if [ $a -lt $b ]
+	then
+		tmp=$a
+		a=$b
+		b=$tmp
+	fi
 	d1+=($a)
 	d2+=($b)
 	i=$[$i*2]
-	if [ $alt -eq 1 ]
-	then
-		alt=0
-		a=$[$a*2]
-	else
-		b=$[$b*2]
-		alt=1
-	fi
 done
 
 echo blocks : ${blocks[*]}
