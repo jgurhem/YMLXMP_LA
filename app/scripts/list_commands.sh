@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echocmd(){
-	echo bash compile_in_batch $@
+	echo bash compile_in_batch.sh $@
 }
 
 nbhosts=1025
