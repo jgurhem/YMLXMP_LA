@@ -12,10 +12,8 @@ machine=$7
 
 rf="~/results.csv"
 
-echo "
-echo -n \"$machine;$nbhosts;$nbnodes;$app;$blocks;$size;$procs;\" >> $rf
-echo -n \$(date +%Y%m%d-%H%M%S) >> $rf
 
+echo "
 d=\$(find . -maxdepth 1 -type d -name 'run*' -ls | sort -r | head -n 1 | awk '{print \$NF}')
 
 file=\$d/exec_log
@@ -26,15 +24,19 @@ tmpNoG=\$(grep -v ^host \$file | sed -E '/genMat|fillMatrixZero|genVect/,+9d' | 
 totNoG=\$(grep -v ^host \$file | sed -E '/genMat|fillMatrixZero|genVect/,+9d' | grep elasped* | grep time: | cut -d ' ' -f3 | awk '{s+=\$1} END {print s}')
 nbTask=\$(grep -c SUCCESS \$file)
 
-echo -n \";\$nbWorker;\$tmpGen;\$totGen;\$tmpNoG;\$totNoG;\" >> $rf
+{
+echo -n \"$machine;$nbhosts;$nbnodes;$app;$blocks;$size;$procs;\"
+echo -n \$(date +%Y%m%d-%H%M%S)
+echo -n \";\$nbWorker;\$tmpGen;\$totGen;\$tmpNoG;\$totNoG;\"
 
 if [ -f \"\$d\"_results.pack ]
 then
-	echo -n true >> $rf
+	echo -n true
 else
-	echo -n false >> $rf
+	echo -n false
 fi
 
-echo \";\$nbTask\" >> $rf
+echo \";\$nbTask\"
+} | tee -a $rf
 "
 
