@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ $# -ne 10 ]
+if [ $# -ne 11 ]
 then
 	echo wrong number of parameters !
 	exit 1
@@ -16,6 +16,7 @@ nbhosts=$7
 nbnodes=$8
 machine=$9
 savedir=${10}
+resfile=${11}
 
 if [ $machine = "bash" ]
 then
@@ -24,7 +25,7 @@ then
 	bash scripts/gen_script_compile_app.sh $app $blocks >> compile.sh
 	echo "#!/bin/bash" > launch.sh
 	bash scripts/gen_script_run.sh $app $nbhosts >> launch.sh
-	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine >> launch.sh
+	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
 	echo "rm -r run*" >> launch.sh
 	echo "rm out-run-$app*" >> launch.sh
 	echo "rm core.*" >> launch.sh
@@ -37,7 +38,7 @@ then
 	bash scripts/gen_header_run_poincare.sh $app $nbhosts $nbnodes >> submit-run-$app-$blocks-$size-$procs.sh
 	echo ". ~/env_yml-xmp_impi.sh" >> submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_script_run.sh $app $nbhosts >> submit-run-$app-$blocks-$size-$procs.sh
-	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine >> submit-run-$app-$blocks-$size-$procs.sh
+	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_process_tar.sh $app $blocks $size $procs >> submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_process_next.sh >> submit-run-$app-$blocks-$size-$procs.sh
 

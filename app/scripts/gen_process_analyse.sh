@@ -10,7 +10,7 @@ nbnodes=$6
 
 machine=$7
 
-rf="~/results.csv"
+rf=$8
 
 
 echo "
