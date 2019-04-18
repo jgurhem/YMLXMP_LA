@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ $# -ne 11 ]
+if [ $# -ne 12 ]
 then
 	echo wrong number of parameters !
 	exit 1
@@ -15,10 +15,21 @@ dis2=$6
 nbhosts=$7
 nbnodes=$8
 machine=$9
-savedir=${10}
-resfile=${11}
+jobtype=${10}
+savedir=${11}
+resfile=${12}
 
-if [ $machine = "bash" ]
+if [ $jobtype = "docker" ]
+then
+	echo "#!/bin/bash" > compile.sh
+	bash scripts/gen_script_compile_comp.sh $blocks $size $procs $dis1 $dis2 $savedir >> compile.sh
+	bash scripts/gen_script_compile_app.sh $app $blocks >> compile.sh
+	echo "#!/bin/bash" > launch.sh
+	echo "mpirun -n 1 -machinefile hosts yml_scheduler $app.query.yapp" >> launch.sh
+	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
+fi
+
+if [ $jobtype = "bash" ]
 then
 	echo "#!/bin/bash" > compile.sh
 	bash scripts/gen_script_compile_comp.sh $blocks $size $procs $dis1 $dis2 $savedir >> compile.sh
@@ -27,12 +38,9 @@ then
 	bash scripts/gen_script_run.sh $app $nbhosts >> launch.sh
 	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
 	echo "rm -r run*" >> launch.sh
-	echo "rm out-run-$app*" >> launch.sh
-	echo "rm core.*" >> launch.sh
-
 fi
 
-if [ $machine = "Poincare" ]
+if [ "$jobtype" = "LoadLeveler" ] && [ "$machine" = "Poincare" ]
 then
 	echo "#!/bin/bash" > submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_header_run_poincare.sh $app $nbhosts $nbnodes >> submit-run-$app-$blocks-$size-$procs.sh
