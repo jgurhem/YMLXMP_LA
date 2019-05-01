@@ -11,7 +11,6 @@ rm -rf \$d/data
 rm core*
 
 mkdir -p ~/res_campaign/$app
-nb=\$[\$(ls ~/res_campaign/$app/$blocks-$size-$procs* | wc -l)+1]
-tar -cvf ~/res_campaign/$app/$blocks-$size-$procs---\$nb.tar.gz \$d out-run-$app.*
+tar -cvf ~/res_campaign/$app/$blocks-$size-${procs}_\$(date +%Y%m%d-%H%M%S).tar.gz \$d out-run-$app.*
 "
 
