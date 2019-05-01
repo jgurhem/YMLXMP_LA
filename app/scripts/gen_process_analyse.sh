@@ -14,7 +14,7 @@ rf=$8
 
 
 echo "
-d=\$(find . -maxdepth 1 -type d -name 'run*' -ls | sort -r | head -n 1 | awk '{print \$NF}')
+d=\$(find . -maxdepth 1 -type d -name 'run*' | xargs ls -dt | head -n 1)
 
 file=\$d/exec_log
 nbWorker=\$(grep pid=* \$file | cut -d '(' -f2 | sort | uniq -c | wc -l)

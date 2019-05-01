@@ -5,7 +5,7 @@ size=$3
 procs=$4
 
 echo "
-d=\$(find . -maxdepth 1 -type d -name 'run*' -ls | sort -r | head -n 1 | awk '{print \$NF}')
+d=\$(find . -maxdepth 1 -type d -name 'run*' | xargs ls -dt | head -n 1)
 
 rm -rf \$d/data
 rm core*
