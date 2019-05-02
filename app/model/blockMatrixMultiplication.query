@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<application name="block Matrix Multiplication">
+<description>
+</description>
+<graph>
+blockcount:=BC;
+varStoreOne:=1;
+
+if( blockcount eq varStoreOne)
+then
+	compute XMP_genMat(mA, 1, 1);
+	compute XMP_genMat(mB, 3, 1);
+	compute XMP_fillMatrixZero(mC);
+	compute XMP_prodAdd(mA, mB, mC);
+else
+	par(i:=0;blockcount-1)(j:=0;blockcount-1)
+	do
+		compute XMP_genMat(A[i][j], i, j);
+		compute XMP_genMat(B[i][j], blockcount + i, blockcount + j);
+		compute XMP_fillMatrixZero(C[i][j]);
+	enddo
+	par(i:=0;blockcount-1)(j:=0;blockcount-1)
+	do
+		seq(k:=0;blockcount-1)
+		do
+			compute XMP_prodAdd(A[i][k], B[k][j], C[i][j]);
+		enddo
+	enddo
+
+endif
+</graph>
+</application>
