@@ -4,9 +4,8 @@
 </description>
 <graph>
 blockcount:=BC;
-varStoreOne:=1;
 
-if( blockcount eq varStoreOne)
+if(blockcount eq 1)
 then
 	compute XMP_genVect(vA,1);
 	compute XMP_genMat(mA,1,1);
