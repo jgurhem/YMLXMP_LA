@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<component type="impl" name="XMP_copyVect" abstract="XMP_copyVect">
+<impl lang="XMP" nodes="CPU:(DISTVECT)">
+  <templates>
+    <template name="t" format="block" size="SIZE"/>
+  </templates>
+  <distribute>
+    <param template="t" name="A1(SIZE)" align="[i]:(i)"/>
+    <param template="t" name="B1(SIZE)" align="[i]:(i)"/>
+  </distribute>
+<header>
+<![CDATA[
+]]>
+</header>
+<source>
+<![CDATA[
+  int    i, n;
+
+  n = SIZE;
+
+#pragma xmp loop (i) on t(i)
+  for(i=0;i<n;i++){
+    B1[i]=A1[i];
+  }
+]]>
+</source>
+<footer />
+</impl>
+</component>
+

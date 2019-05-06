@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ $# -ne 12 ]
+if [ $# -ne 13 ]
 then
 	echo wrong number of parameters !
 	exit 1
@@ -18,12 +18,13 @@ machine=$9
 jobtype=${10}
 savedir=${11}
 resfile=${12}
+save_init=${13}
 
 if [ $jobtype = "docker" ]
 then
 	echo "#!/bin/bash" > compile.sh
 	bash scripts/gen_script_compile_comp.sh $blocks $size $procs $dis1 $dis2 $savedir >> compile.sh
-	bash scripts/gen_script_compile_app.sh $app $blocks >> compile.sh
+	bash scripts/gen_script_compile_app.sh $app $blocks $save_init >> compile.sh
 	echo "#!/bin/bash" > launch.sh
 	echo "mpirun -n 1 -machinefile hosts yml_scheduler $app.query.yapp" >> launch.sh
 	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
@@ -33,7 +34,7 @@ if [ $jobtype = "bash" ]
 then
 	echo "#!/bin/bash" > compile.sh
 	bash scripts/gen_script_compile_comp.sh $blocks $size $procs $dis1 $dis2 $savedir >> compile.sh
-	bash scripts/gen_script_compile_app.sh $app $blocks >> compile.sh
+	bash scripts/gen_script_compile_app.sh $app $blocks $save_init >> compile.sh
 	echo "#!/bin/bash" > launch.sh
 	bash scripts/gen_script_run.sh $app $nbhosts >> launch.sh
 	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
@@ -53,7 +54,7 @@ then
 	echo "#!/bin/bash" > submit-compile-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_header_compile_poincare.sh $app $blocks $size $procs >> submit-compile-$app-$blocks-$size-$procs.sh
 	echo ". ~/env_yml-xmp_impi.sh" >> submit-compile-$app-$blocks-$size-$procs.sh
-	bash scripts/gen_script_compile_app.sh $app $blocks >> submit-compile-$app-$blocks-$size-$procs.sh
+	bash scripts/gen_script_compile_app.sh $app $blocks $save_init >> submit-compile-$app-$blocks-$size-$procs.sh
 	echo "llsubmit submit-run-$app-$blocks-$size-$procs.sh" >> submit-compile-$app-$blocks-$size-$procs.sh
 
 	echo "#!/bin/bash" > submit-compile-comp-$blocks-$size-$procs.sh

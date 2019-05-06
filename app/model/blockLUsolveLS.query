@@ -4,23 +4,30 @@
 </description>
 <graph>
 blockcount:=BC;
+save_init:=SI;
 
 if(blockcount eq 1)
 then
-        compute XMP_genVect(vA,1);
-        compute XMP_genMat(mA,1,1);
-        compute XMP_solveLinearSystem(mA,vA);
+	compute XMP_genVect(vA,1);
+	compute XMP_genMat(mA,1,1);
+	then
+		compute XMP_copyMat(mA,mA_init);
+		compute XMP_copyVect(vA,vA_init);
+	endif
+	compute XMP_solveLinearSystem(mA,vA);
 else
 	par
 		par(i:=0;blockcount-1)(j:=0;blockcount-1)
 		do
 			compute XMP_genMat(A[i][j],i,j);
+			if(save_init eq 0) then compute XMP_copyMat(A[i][j],A_init[i][j]); endif
 			notify(p[i][j][0]);
 		enddo
 	//
 		par(i:=0;blockcount-1)
 		do
 			compute XMP_genVect(b[i],i);
+			if(save_init eq 0) then compute XMP_copyVect(b[i],b_init[i]); endif
 			notify(lsystem[i][0]);
 		enddo
 	endpar

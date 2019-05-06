@@ -4,15 +4,21 @@
 </description>
 <graph>
 blockcount:=BC;
+save_init:=SI;
 
 if(blockcount eq 1)
 then
     compute XMP_genMat(mA,1,1);
+    if(save_init eq 0)
+    then
+        compute XMP_copyMat(mA,mA_init);
+    endif
     compute XMP_factoLU(mA);
 else
     par(i:=0;blockcount-1)(j:=0;blockcount-1)
     do
         compute XMP_genMat(A[i][j],i,j);
+        if(save_init eq 0) then compute XMP_copyMat(A[i][j],A_init[i][j]); endif
         notify(p[i][j][0]);
     enddo
 

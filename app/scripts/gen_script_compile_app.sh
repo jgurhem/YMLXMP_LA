@@ -1,6 +1,7 @@
 #!/bin/sh
 app=$1
 blocks=$2
+save_init=$3
 
 echo "
 
@@ -10,7 +11,7 @@ then
 	exit 1
 fi
 
-sed -e \"s/BC/$blocks/g\" model/$app.query > $app.query
+sed -e \"s/BC/$blocks/g;s/SI/$save_init/g\" model/$app.query > $app.query
 
 yml_compiler $app.query
 

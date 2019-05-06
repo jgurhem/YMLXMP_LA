@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<component type="abstract" name="XMP_copyVect">
+<params>
+<param name="A1" type="vector" mode="in" />
+<param name="B1" type="vector" mode="out" />
+</params>
+</component>
