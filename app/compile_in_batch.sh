@@ -27,7 +27,7 @@ then
 	bash scripts/gen_script_compile_app.sh $app $blocks $save_init >> compile.sh
 	echo "#!/bin/bash" > launch.sh
 	echo "mpirun -n 1 -machinefile hosts yml_scheduler $app.query.yapp" >> launch.sh
-	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
+	echo "bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile" >> launch.sh
 fi
 
 if [ $jobtype = "bash" ]
@@ -37,8 +37,8 @@ then
 	bash scripts/gen_script_compile_app.sh $app $blocks $save_init >> compile.sh
 	echo "#!/bin/bash" > launch.sh
 	bash scripts/gen_script_run.sh $app $nbhosts >> launch.sh
-	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> launch.sh
 	echo "rm -r run*" >> launch.sh
+	echo "bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile" >> launch.sh
 fi
 
 if [ "$jobtype" = "LoadLeveler" ] && [ "$machine" = "Poincare" ]
@@ -47,7 +47,7 @@ then
 	bash scripts/gen_header_run_poincare.sh $app $nbhosts $nbnodes >> submit-run-$app-$blocks-$size-$procs.sh
 	echo ". ~/env_yml-xmp_impi.sh" >> submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_script_run.sh $app $nbhosts >> submit-run-$app-$blocks-$size-$procs.sh
-	bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile >> submit-run-$app-$blocks-$size-$procs.sh
+	echo "bash scripts/gen_process_analyse.sh $app $blocks $size $procs $nbhosts $nbnodes $machine $resfile" >> submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_process_tar.sh $app $blocks $size $procs >> submit-run-$app-$blocks-$size-$procs.sh
 	bash scripts/gen_process_next.sh >> submit-run-$app-$blocks-$size-$procs.sh
 
