@@ -83,11 +83,11 @@ do
 	i=$[$i*2]
 done
 
-echo blocks : ${blocks[*]}
-echo sizes : ${sizes[*]}
-echo procs : ${procs[*]}
-echo d1 : ${d1[*]}
-echo d2 : ${d2[*]}
+echo blocks : ${blocks[*]} >&2
+echo sizes : ${sizes[*]} >&2
+echo procs : ${procs[*]} >&2
+#echo d1 : ${d1[*]}
+#echo d2 : ${d2[*]}
 
 
 for myapp in $app
