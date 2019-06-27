@@ -23,18 +23,35 @@ tmpNoG=$(grep -v ^host $file | sed -E '/genMat|fillMatrixZero|genVect/,+9d' | gr
 totNoG=$(grep -v ^host $file | sed -E '/genMat|fillMatrixZero|genVect/,+9d' | grep elasped* | grep time: | cut -d ' ' -f3 | awk '{s+=$1} END {print s}')
 nbTask=$(grep -c SUCCESS $file)
 
-{
-echo -n "$machine;$nbhosts;$nbnodes;$app;$blocks;$size;$procs;"
-echo -n $(date +%Y%m%d-%H%M%S)
-echo -n ";$nbWorker;$tmpGen;$totGen;$tmpNoG;$totNoG;"
-
+let datasize=blocks*size
+date=$(date +%Y%m%d-%H%M%S)
+success="false"
 if [ -f "$d"_results.pack ]
 then
-	echo -n true
-else
-	echo -n false
+        success="true"
 fi
 
-echo ";$nbTask"
+{
+#echo "$machine;$nbhosts;$nbnodes;$app;$blocks;$size;$procs;$date;$nbWorker;$tmpGen;$totGen;$tmpNoG;$totNoG;$success;$nbTask"
+cat << EOF
+{"machine":"$machine",\
+"nb_cores":"$nbhosts",\
+"nb_nodes":"$nbnodes",\
+"test":"$app",\
+"lang":"YML+XMP",\
+"nb_blocks":"$blocks",\
+"blocksize":"$size",\
+"datasize":"$datasize",\
+"nb_proc_per_task":"$procs",\
+"date":"$date",\
+"nbWorker":"$nbWorker",\
+"tmpGen":"$tmpGen",\
+"totGen":"$totGen",\
+"time_io":"$tmpNoG",\
+"totNoG":"$totNoG",\
+"success":"$success",\
+"nbTask":"$nbTask",\
+"runfolder":"$d"}
+EOF
 } | tee -a $rf
 
