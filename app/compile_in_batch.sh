@@ -20,6 +20,8 @@ savedir=${11}
 resfile=${12}
 save_init=${13}
 
+echo "$(date +%Y%m%d-%H%M%S) :: bash $0 $*" >> processed_commands.txt
+
 if [ $jobtype = "docker" ]
 then
 	echo "#!/bin/bash" > compile.sh
