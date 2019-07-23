@@ -11,6 +11,6 @@ rm -rf \$d/data
 rm core*
 
 mkdir -p ~/res_campaign/$app
-tar -cvf ~/res_campaign/$app/$blocks-$size-${procs}_\$(date +%Y%m%d-%H%M%S).tar.gz \${d}* out-run-$app.*
+tar -cvzf ~/res_campaign/$app/$blocks-$size-${procs}_\$(date +%Y%m%d-%H%M%S).tar.gz \${d}* yml_xmp-run-$app.*
 "
 
