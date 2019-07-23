@@ -7,7 +7,7 @@ procs=$4
 
 echo "
 #@ class            = compil
-#@ job_name         = out-compile-$name
+#@ job_name         = yml_xmp-compile-$name
 #@ total_tasks      = 1
 #@ node             = 1
 #@ wall_clock_limit = 00:30:00

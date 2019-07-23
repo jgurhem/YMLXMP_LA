@@ -6,7 +6,7 @@ nbnodes=$3
 
 echo "
 #@ class            = clallmds+
-#@ job_name         = out-run-$app
+#@ job_name         = yml_xmp-run-$app
 #@ total_tasks      = $nbhosts
 #@ node             = $nbnodes
 #@ wall_clock_limit = 06:00:00
