@@ -47,7 +47,7 @@ cat << EOF
 "nbWorker":"$nbWorker",\
 "tmpGen":"$tmpGen",\
 "totGen":"$totGen",\
-"time_io":"$tmpNoG",\
+"time_calc":"$tmpNoG",\
 "totNoG":"$totNoG",\
 "success":"$success",\
 "nbTask":"$nbTask",\
