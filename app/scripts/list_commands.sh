@@ -35,7 +35,6 @@ nbhosts=$(($nbnodes * 16 + 1))
 nbnodes=$(($nbnodes + 1))
 machine=Poincare
 jobtype=LoadLeveler
-savedir="/gpfsdata/jgurhem/res/"
 resfile=$4
 
 app=$1
@@ -96,12 +95,12 @@ do
 	do
 		if [ $item -eq 1 ]
 		then
-			echocmd $myapp $item ${sizes[0]} ${procs[${#procs[*]} - 1]} ${d1[${#d1[*]} - 1]} ${d2[${#d2[*]} - 1]} $nbhosts $nbnodes $machine $jobtype $savedir $resfile 1
+			echocmd $myapp $item ${sizes[0]} ${procs[${#procs[*]} - 1]} ${d1[${#d1[*]} - 1]} ${d2[${#d2[*]} - 1]} $nbhosts $nbnodes $machine $jobtype $resfile 1
 			continue
 		fi
 		for (( p = 0; p < ${#procs[*]} - 1; p++ ))
 		do
-			echocmd $myapp $item ${sizes[$i]} ${procs[$p]} ${d1[$p]} ${d2[$p]} $nbhosts $nbnodes $machine $jobtype $savedir $resfile 1
+			echocmd $myapp $item ${sizes[$i]} ${procs[$p]} ${d1[$p]} ${d2[$p]} $nbhosts $nbnodes $machine $jobtype $resfile 1
 		done
 		i=$[$i+1]
 	done
