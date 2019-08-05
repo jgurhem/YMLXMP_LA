@@ -1,5 +1,2 @@
-rm *yapp
-rm out-*
-rm submit-*
-rm *.query
-rm -r run*
+rm -f *yapp yml_xmp-* core* submit-* *.query
+rm -rf run*
