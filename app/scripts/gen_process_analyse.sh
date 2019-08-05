@@ -51,6 +51,7 @@ cat << EOF
 "totNoG":"$totNoG",\
 "success":"$success",\
 "nbTask":"$nbTask",\
+"log_file":"$LOADL_STEP_OUT",\
 "runfolder":"$d"}
 EOF
 } | tee -a $rf

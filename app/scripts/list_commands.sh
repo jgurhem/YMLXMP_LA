@@ -30,20 +30,19 @@ intfact(){
 }
 
 
-nbhosts=1025
-nbnodes=65
+nbnodes=$3
+nbhosts=$(($nbnodes * 16 + 1))
+nbnodes=$(($nbnodes + 1))
 machine=Poincare
 jobtype=LoadLeveler
-savedir="/tmp"
-
-resfile="~/results.csv"
+savedir="/gpfsdata/jgurhem/res/"
+resfile=$4
 
 app=$1
 matrixSize=$2
-maxBlock=16
-minPPT=16
-maxPPT=1024
-
+maxBlock=8
+maxPPT=$(($nbhosts - 1))
+minPPT=$(($3 * 2))
 
 i=1
 blocks=( )
